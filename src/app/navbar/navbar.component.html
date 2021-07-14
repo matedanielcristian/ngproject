@@ -1,0 +1,45 @@
+
+<mat-toolbar class="mat-elevation-z8" color="primary">
+  <button mat-icon-button *ngIf="sidenav.mode === 'over'" (click)="sidenav.toggle()">
+      <mat-icon *ngIf="!sidenav.opened">
+          menu
+      </mat-icon>
+      <mat-icon *ngIf="sidenav.opened">
+          close
+      </mat-icon>
+  </button>
+  Internship project w1
+</mat-toolbar>
+
+<mat-sidenav-container>
+  <mat-sidenav #sidenav="matSidenav" color="primary" class="mat-elevation-z8">
+
+      <img class="avatar mat-elevation-z8" src="https://miro.medium.com/max/1400/1*-A6JodFepiObNIhr6SU38w.png" />
+
+      <h3 class="name">Dashboard</h3>
+
+      <mat-divider></mat-divider>
+
+      <button [routerLink]="['/users']" mat-button class="menu-button">
+          <mat-icon>manage_accounts</mat-icon>
+          <span>Users</span>
+      </button>
+      <!-- <button mat-button class="menu-button">
+        <mat-icon>grading</mat-icon>
+        <span>Skills</span>
+    </button> -->
+
+      <mat-divider></mat-divider>
+
+      <!-- <button mat-button class="menu-button">
+          <mat-icon>help</mat-icon>
+          <span>Help</span>
+      </button> -->
+
+  </mat-sidenav>
+  <mat-sidenav-content>
+      <div class="content mat-elevation-z8">
+          <router-outlet></router-outlet>
+      </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

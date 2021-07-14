@@ -1,0 +1,101 @@
+<div
+  class="row w-100 h-100 justify-content-center align-items-center"
+  style="margin-top: -2rem"
+>
+  <div class="col-sm-12 col-md-9 col-lg-7 col-xl-5">
+
+    <div class="card mat-elevation-z8 rounded">
+      <div class="card-body">
+        <div *ngIf="userInfo == 'created' " class="alert alert-success text-success">
+          User was successfully added!
+        </div>
+        <div *ngIf="userInfo == 'updated' " class="alert alert-success text-success">
+          User was successfully updated!
+        </div>
+        <div *ngIf="error" class="alert alert-danger text-danger">
+          {{error}}
+        </div>
+        <h1 *ngIf="type == 'add'" class="text-center my-3 text-primary">Add user</h1>
+        <h1 *ngIf="type == 'edit'" class="text-center my-3 text-primary">Edit user</h1>
+        <form [formGroup]="myForm" novalidate>
+              <!-- Name -->
+            <div class="w-100 my-3 d-flex justify-content-center">
+              <mat-form-field class="w-75">
+                <input
+                  matInput
+                  placeholder="Full Name"
+                  formControlName="fullName"
+                />
+                <!-- error -->
+                <mat-error class="text-danger" *ngIf="errorHandling('fullName', 'required')">
+                  You must provide a Full Name.
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="w-100 my-3 d-flex justify-content-center">
+              <mat-form-field class="w-75 ">
+                <input matInput placeholder="Email" formControlName="email" type="email" />
+                <mat-error  class="text-danger" *ngIf="errorHandling('email', 'required')">
+                  You must provide a valid email.
+                </mat-error>
+              </mat-form-field>
+              </div>
+              <div *ngIf="type == 'add'" class="w-100 my-3 d-flex justify-content-center">
+                <mat-form-field class="w-75">
+                  <input
+                    matInput
+                    placeholder="Password"
+                    formControlName="password"
+                    type="password"
+                    name="password"
+                  />
+                  <!-- error -->
+                  <mat-error class="text-danger" *ngIf="errorHandling('password', 'required')">
+                    You must provide a password.
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="w-100 my-3 d-flex justify-content-center">
+              <div class="w-75 misc-bottom-padding ">
+                <mat-label class="mb-2">Gender: </mat-label>
+                 <div style="height: 15px;"></div>
+                <mat-radio-group
+                  aria-label="Select an option"
+                  formControlName="gender"
+                >
+                  <mat-radio-button value="1">Male</mat-radio-button
+                  ><span style="margin-left: 10px"></span>
+                  <mat-radio-button value="2">Female</mat-radio-button>
+                </mat-radio-group>
+              </div>
+
+
+
+              </div>
+              <div class="w-100 my-3 d-flex justify-content-center">
+                <div class="w-75 misc-bottom-padding ">
+              <mat-form-field appearance="fill">
+                <mat-label>Role</mat-label>
+                <mat-select formControlName="userRole">
+                  <mat-option value="ADMIN">ADMIN</mat-option>
+                  <mat-option value="USER" >USER</mat-option>
+                </mat-select>
+                <mat-error class="text-danger" *ngIf="errorHandling('userRole', 'required')">
+                  You must provide a role.
+                </mat-error>
+                <!-- <mat-hint>You have to select the user role</mat-hint> -->
+              </mat-form-field>
+              </div>
+              </div>
+              <!-- <hr> -->
+              <div class="button-wrapper d-flex justify-content-center my-5">
+                <button mat-flat-button color="primary" [disabled]="userInfo == 'created' || myForm.invalid" (click)="submitForm()" type="button"  class="pl-5 pr-5">
+                  Submit
+                </button>
+              </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
