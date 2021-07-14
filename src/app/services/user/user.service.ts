@@ -4,18 +4,19 @@ import { MatPaginator } from '@angular/material/paginator';
 import { Observable, Subject, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { createLogicalAnd } from 'typescript';
-import { User, UserRole } from './users/user.model';
+import { User, UserRole } from '../../models/user.model';
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  baseURL= "http://localhost:8080/api/v1" + "/users";
+  baseURL = 'http://localhost:8080/api/v1' + '/users';
   userServiceLoading = new Subject<boolean>();
   error = new Subject<String>();
   userInfo = new Subject<String>();
   users: User[] = [];
   fetchedUser!: User;
   paginator!: MatPaginator;
+
   getUsers() {
     return this.users;
   }
@@ -27,41 +28,38 @@ export class UserService {
     this.userInfo.next('created');
     setTimeout(() => {
       this.userInfo.next('');
-    }, 3000)
+    }, 3000);
   }
 
   setUserDeleted() {
     this.userInfo.next('deleted');
     setTimeout(() => {
       this.userInfo.next('');
-    }, 3000)
+    }, 3000);
   }
 
-  setUserFetched() {
+  setUserFetched(user: User) {
+    this.fetchedUser = user;
     this.userInfo.next('fetched');
     setTimeout(() => {
       this.userInfo.next('');
-    }, 3000)
+    }, 3000);
   }
   setUserUpdated() {
     this.userInfo.next('updated');
     setTimeout(() => {
       this.userInfo.next('');
-    }, 3000)
+    }, 5000);
   }
 
-
-
-  setError(e : String) {
+  setError(e: String) {
     this.error.next(e);
     setTimeout(() => {
       this.error.next('');
-    }, 3000)
+    }, 3000);
   }
 
-
-
-  listUsers(request : any) {
+  listUsers(request: any) {
     const endpoint = this.baseURL;
     const params = request;
     return this.http.get(endpoint, { params });
@@ -69,39 +67,51 @@ export class UserService {
 
   deleteUser(id: number) {
     const endpoint = this.baseURL + `/${id}`;
-    return this.http.delete(endpoint).subscribe(res => {
-      this.setUserDeleted();
-    }, error => {
-      this.setError(error.message);
-    })
+    return this.http.delete(endpoint).pipe(
+      (resData) => {
+        return resData;
+      },
+      catchError((error) => {
+        this.setError(error.message);
+        return throwError(error);
+      })
+    );
   }
 
   getUser(id: number) {
     const endpoint = this.baseURL + `/${id}`;
-    return this.http.get(endpoint).subscribe((res: any) => {
-      this.fetchedUser = res;
-      this.setUserFetched();
-    }, error => {
-      this.setError(error.message);
-    })
+    return this.http.get<User>(endpoint).pipe(map(resData => {
+      return resData;
+    }),
+      catchError((error) => {
+        this.setError(error?.error?.message || error.message);
+        return throwError(error);
+      })
+    );
   }
 
   createUser(user: User) {
-    return this.http.post(this.baseURL, user).subscribe(responseData => {
-      this.setUserCreated();
-      console.log(responseData);
-    }, error => {
-      this.setError(error.error.message);
-    })
+    return this.http.post(this.baseURL, user).pipe(
+      (resData) => {
+        return resData;
+      },
+      catchError((error) => {
+        this.setError(error?.error?.message || error.message);
+        return throwError(error);
+      })
+    );
   }
 
   updateUser(id: number, user: any) {
-    return this.http.put(this.baseURL + `/${id}`, user).subscribe(responseData => {
-      this.setUserUpdated();
-      console.log(responseData);
-    }, error => {
-      this.setError(error.error.message);
-    })
+    return this.http.put(this.baseURL + `/${id}`, user).pipe(
+      (resData) => {
+        return resData;
+      },
+      catchError((error) => {
+        this.setError(error?.error?.message || error.message);
+        return throwError(error);
+      })
+    );
   }
 
   constructor(private http: HttpClient) {}

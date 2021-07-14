@@ -4,13 +4,13 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { UserDataSource } from 'src/app/user.datasource';
-import { UserService } from 'src/app/user.service';
+import { UserService } from 'src/app/services/user/user.service';
 import { createLogicalAnd } from 'typescript';
-import { User, UserRole } from '../user.model';
-import { DialogComponent } from 'src/app/dialog/dialog.component';
+import { User, UserRole } from '../../../models/user.model';
+import { DialogComponent } from 'src/app/components/reusable/dialog/dialog.component';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { CommonModelService } from 'src/app/common-model.service';
+import { CommonModelService } from 'src/app/services/common-model.service';
+import { UserDataSource } from 'src/app/datasources/user.datasource';
 
 
 export interface DeleteUserDialog {
@@ -49,7 +49,7 @@ export class UsersTableComponent implements OnInit, OnDestroy, AfterViewInit {
     this.usersDataSource.loadUsers();
     this.userSub = this.userService.userInfo.subscribe(data => {
       this.userInfo = data;
-      console.log(this.userInfo);
+      console.log('this.userInfo', this.userInfo);
       if(this.userInfo == 'deleted') {
         this.loadUsers();
       }
@@ -83,7 +83,9 @@ export class UsersTableComponent implements OnInit, OnDestroy, AfterViewInit {
     };
     this.commModel.openDialog().subscribe(data =>      {
       console.log('response', data);
-      this.userService.deleteUser(data.id);
+      this.userService.deleteUser(data.id).subscribe(res => {
+        this.userService.setUserDeleted();
+      });
       this.loadUsers();
     });
   }

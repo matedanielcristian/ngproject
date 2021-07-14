@@ -31,9 +31,9 @@
     <div  class="row my-5">
       <div class="col-12">
         <div *ngIf="userInfo == 'deleted'" class="alert alert-success" style="height: 50px;">
-          <h3>User was successfully deleted!</h3>
+          <h4>User was successfully deleted!</h4>
         </div>
-        <div *ngIf="userInfo != 'deleted'" style="height: 50px;">
+        <div *ngIf="userInfo == ''" style="height: 60px;">
         </div>
         <div class="mat-elevation-z8">
           <table class="w-100" mat-table [dataSource]="usersDataSource">

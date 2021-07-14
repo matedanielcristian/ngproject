@@ -1,6 +1,7 @@
 import { HttpClient, ɵHttpInterceptingHandler } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { User, UserRole } from './user.model';
+import { UserRole, User } from 'src/app/models/user.model';
+
 
 @Component({
   selector: 'app-users',

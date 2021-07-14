@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { UserService } from 'src/app/user.service';
-import { User } from '../user.model';
+import { User } from '../../../models/user.model';
 import { ActivatedRoute, Router } from '@angular/router'
 import { Subscription } from 'rxjs';
 import { createLogicalAnd } from 'typescript';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-add-user',
@@ -30,7 +30,11 @@ export class AddUserComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if(this.route.snapshot.queryParams['id']) {
       this.type = 'edit';
-      this.userService.getUser(this.route.snapshot.queryParams['id']);
+      this.userService.getUser(this.route.snapshot.queryParams['id']).subscribe(resData => {
+        console.log('user fetched:', resData);
+
+        this.userService.setUserFetched(resData);
+      });
     }
     this.errorSub = this.userService.error.subscribe(errorMessage => {
       this.error = errorMessage;
@@ -89,10 +93,18 @@ export class AddUserComponent implements OnInit, OnDestroy {
       console.log(this.myForm)
       if(this.myForm.valid) {
         if(this.type == 'add') {
-          this.userService.createUser(this.myForm.value);
+          this.userService.createUser(this.myForm.value).subscribe(resData => {
+            this.userService.setUserCreated();
+          });
         } else {
           console.log("myform", this.myForm.value);
-          this.userService.updateUser(this.fetchedUser.id, this.myForm.value);
+          this.userService.updateUser(this.fetchedUser.id, this.myForm.value).subscribe(resData => {
+            this.userService.setUserUpdated();
+            console.log('User was updated!', resData)
+            setTimeout(()=> {
+              this.router.navigate(['/', 'users']);
+            }, 2000);
+          });
         }
       }
 

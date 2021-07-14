@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { MatDialogRef, MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { DialogComponent } from './dialog/dialog.component';
+import { DialogComponent } from '../components/reusable/dialog/dialog.component';
 
 @Injectable()
 export class CommonModelService {

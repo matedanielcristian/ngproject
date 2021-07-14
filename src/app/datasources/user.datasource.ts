@@ -1,10 +1,10 @@
 import { DataSource } from '@angular/cdk/table';
-import { UserListResponse } from "./UserListResponse";
+import { UserListResponse } from "../models/UserListResponse";
 import { CollectionViewer } from '@angular/cdk/collections';
 import { Observable, BehaviorSubject, of } from "rxjs";
-import { UserService } from './user.service';
+import { UserService } from '../services/user/user.service';
 import { catchError, finalize } from "rxjs/operators";
-import { User } from './users/user.model';
+import { User } from '../models/user.model';
 
 export class UserDataSource implements DataSource<User>{
 
