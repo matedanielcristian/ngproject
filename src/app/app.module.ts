@@ -39,7 +39,8 @@ import { CommonModelService } from './services/common-model.service';
         { path: '', component: UsersTableComponent },
         { path: 'add', component: AddUserComponent },
         { path: 'edit', component: AddUserComponent }
-      ]}
+      ]},
+      // {path: '*', component:  NotfoundComponent}
     ]),
     NgbModule,
     AngularMaterialModule

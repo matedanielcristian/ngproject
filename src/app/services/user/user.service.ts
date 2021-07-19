@@ -1,15 +1,15 @@
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { Observable, Subject, throwError } from 'rxjs';
+import { Subject, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { createLogicalAnd } from 'typescript';
-import { User, UserRole } from '../../models/user.model';
+import { User } from '../../models/user.model';
+import { environment } from '../../environment/environment';
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  baseURL = 'http://localhost:8080/api/v1' + '/users';
+  baseURL = environment.apiUrl + environment.usersEndpoint;
   userServiceLoading = new Subject<boolean>();
   error = new Subject<String>();
   userInfo = new Subject<String>();

@@ -22,4 +22,10 @@ describe('AddUserComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('it should have as title "Add user" ', () => {
+    fixture = TestBed.createComponent(AddUserComponent);
+    let app = fixture.debugElement.componentInstance;
+    expect(app.title).toBeTruthy('Add user');
+  });
 });

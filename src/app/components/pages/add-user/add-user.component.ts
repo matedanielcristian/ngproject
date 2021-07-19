@@ -3,7 +3,6 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { User } from '../../../models/user.model';
 import { ActivatedRoute, Router } from '@angular/router'
 import { Subscription } from 'rxjs';
-import { createLogicalAnd } from 'typescript';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
@@ -19,6 +18,7 @@ export class AddUserComponent implements OnInit, OnDestroy {
   error: String = "";
   userInfo: String = "";
   myForm!: FormGroup;
+  title: String = "Add user";
   type: String = "add";
   fetchedUser!: User;
   private userServiceIsLoading: Subscription = new Subscription();
@@ -30,9 +30,9 @@ export class AddUserComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if(this.route.snapshot.queryParams['id']) {
       this.type = 'edit';
+      this.title = "Edit user";
       this.userService.getUser(this.route.snapshot.queryParams['id']).subscribe(resData => {
-        console.log('user fetched:', resData);
-
+        // console.log('user fetched:', resData);
         this.userService.setUserFetched(resData);
       });
     }
@@ -53,7 +53,6 @@ export class AddUserComponent implements OnInit, OnDestroy {
           this.myForm.markAsPristine();
         }, 3000)
       }
-      console.log(data);
     })
 
       this.reactiveForm()
@@ -90,20 +89,18 @@ export class AddUserComponent implements OnInit, OnDestroy {
     }
 
     submitForm() {
-      console.log(this.myForm)
+      // console.log(this.myForm)
       if(this.myForm.valid) {
         if(this.type == 'add') {
           this.userService.createUser(this.myForm.value).subscribe(resData => {
             this.userService.setUserCreated();
           });
         } else {
-          console.log("myform", this.myForm.value);
           this.userService.updateUser(this.fetchedUser.id, this.myForm.value).subscribe(resData => {
             this.userService.setUserUpdated();
-            console.log('User was updated!', resData)
             setTimeout(()=> {
               this.router.navigate(['/', 'users']);
-            }, 2000);
+            }, 1000);
           });
         }
       }

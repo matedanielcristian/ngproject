@@ -20,7 +20,7 @@ export class DialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<DialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DeleteUserDialog) {
-      console.log(this.data)
+      // console.log(this.data)
      }
 
   onNoClick(): void {

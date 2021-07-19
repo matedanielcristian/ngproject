@@ -15,8 +15,7 @@
         <div *ngIf="error" class="alert alert-danger text-danger">
           {{error}}
         </div>
-        <h1 *ngIf="type == 'add'" class="text-center my-3 text-primary">Add user</h1>
-        <h1 *ngIf="type == 'edit'" class="text-center my-3 text-primary">Edit user</h1>
+        <h1 class="text-center my-3 text-primary">{{title}}</h1>
         <form [formGroup]="myForm" novalidate>
               <!-- Name -->
             <div class="w-100 my-3 d-flex justify-content-center">
@@ -37,6 +36,9 @@
               <mat-form-field class="w-75 ">
                 <input matInput placeholder="Email" formControlName="email" type="email" />
                 <mat-error  class="text-danger" *ngIf="errorHandling('email', 'required')">
+                  You must provide a valid email.
+                </mat-error>
+                <mat-error  class="text-danger" *ngIf="errorHandling('email', 'email')">
                   You must provide a valid email.
                 </mat-error>
               </mat-form-field>

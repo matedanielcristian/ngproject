@@ -1,5 +1,4 @@
 import { DataSource } from '@angular/cdk/table';
-import { UserListResponse } from "../models/UserListResponse";
 import { CollectionViewer } from '@angular/cdk/collections';
 import { Observable, BehaviorSubject, of } from "rxjs";
 import { UserService } from '../services/user/user.service';
@@ -26,10 +25,10 @@ export class UserDataSource implements DataSource<User>{
     }
 
     loadUsers(pageNumber = 0, pageSize = 10) {
-        console.log('pageNumber', pageNumber);
-        console.log('pageSize', pageSize);
+        // console.log('pageNumber', pageNumber);
+        // console.log('pageSize', pageSize);
         this.loadingSubject.next(true);
-        this.userService.listUsers({ page: pageNumber, size: pageSize })
+        this.userService.listUsers({ pageNo: pageNumber, pageSize: pageSize })
             .pipe(
                 catchError(() => of([])),
                 finalize(() => this.loadingSubject.next(false))

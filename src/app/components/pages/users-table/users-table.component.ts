@@ -3,21 +3,13 @@ import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { UserService } from 'src/app/services/user/user.service';
-import { createLogicalAnd } from 'typescript';
-import { User, UserRole } from '../../../models/user.model';
-import { DialogComponent } from 'src/app/components/reusable/dialog/dialog.component';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { User } from '../../../models/user.model';
+import {MatDialog} from '@angular/material/dialog';
 import { CommonModelService } from 'src/app/services/common-model.service';
 import { UserDataSource } from 'src/app/datasources/user.datasource';
 
-
-export interface DeleteUserDialog {
-  id: string;
-  name: string;
-  type: 'confirmation'
-}
 
 @Component({
   selector: 'app-users-table',
